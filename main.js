@@ -1,8 +1,6 @@
 const prompt = require("prompt-sync")();
 let choice, result;
-let toDoList = [
-  { id: 1, description: "Apprendre JavaScript", titre: "Lwel", isDone: false },
-];
+let toDoList = [];
 do {
   console.log(
     "=== To-Do List === \n 1. Afficher les tâches \n 2. Ajouter une tâche \n 3. Rechercher une tâche \n 4. Modifier une tâche \n 5. Supprimer une tâche \n 6. Marquer une tâche comme terminée \n 7. Afficher tâches terminées / en attente \n 0. Quitter"
@@ -36,11 +34,16 @@ do {
 
 function searchForAtache() {
   let descriptionTache = prompt("Entrez le titre de la tache: ");
-  if (toDoList.find(({ description }) => description == descriptionTache) == undefined) {
+  if (
+    toDoList.find(({ description }) => description == descriptionTache) ==
+    undefined
+  ) {
     console.log("Tache introuvable");
-    searchForAtache()
+    searchForAtache();
   } else {
-    result = toDoList.find(({ description }) => description == descriptionTache)
+    result = toDoList.find(
+      ({ description }) => description == descriptionTache
+    );
   }
 }
 
@@ -49,11 +52,13 @@ function afficherAll() {
     console.log("aucune tache trouvée");
   } else {
     for (let i in toDoList) {
+      let status = "Tache terminee";
+      if (toDoList[i].isDone == false) {
+        status = "En attent";
+      }
       console.log("=".repeat(30));
       console.log(
-        toDoList[i].id +
-          ". " +
-          toDoList[i].description
+        toDoList[i].id + ". " + toDoList[i].description + " - Status: " + status
       );
     }
     console.log("=".repeat(30));
@@ -61,9 +66,8 @@ function afficherAll() {
 }
 
 function ajouter() {
-  let tache
+  let tache;
   tache = prompt("Entrez la description de la tâche : ");
-
   toDoList.push({
     id: toDoList.length + 1,
     description: tache,
@@ -74,8 +78,12 @@ function ajouter() {
 }
 function rechercher() {
   searchForAtache();
+  let status = "Tache terminee";
+  if (result.isDone == false) {
+    status = "En attent";
+  }
   console.log("-".repeat(30));
-  console.log(result.id + ". " + result.description);
+  console.log(result.id + ". " + result.description + " - Status: " + status);
   console.log("-".repeat(30));
 }
 
